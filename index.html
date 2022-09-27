@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang='tr'>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js" type="text/javascript"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+</head>
+<body>
+<div class="radio-container">
+  <div class="duyuru">
+<i aria-hidden="true" class="fa fa-info-circle"></i>
+Connect your NINJAM client to:
+<embed type="text/html" src="ip.html">
+</div>
+  <div class="radio-header">
+    <div class="radio-name">Jams Radyo</div>
+    <div class="current-presenter"> </div>
+  </div>
+  <div class="radio-body">
+    <div class="shine"></div>
+    <div class="current-song">
+      <div class="logo">
+      <a href="http://ninbot.com/">
+      <img alt="Radyo" src="http://ninbot.com/ninbot_logo.png" style="height: 30px;width: 110px;border-radius: 5px;" />
+      </a></div>
+     <div id="radyo">🔴n <br> Online Doğaçlamalar</div>
+    </div>
+    <div class="radio-buttons">
+      <audio id="radioPlayer">
+      <source src="//stream.zeno.fm/pgwxggc0qnhvv" type="audio/mpeg" />
+      </audio>
+      <div class="button button-play"><i aria-hidden="true" class="fa fa-play"></i></div>
+      <div class="button button-stop"><i aria-hidden="true" class="fa fa-power-off"></i></div>
+    </div>
+    <div class="wave-bars">
+      <div class="wave wave-1"></div>
+      <div class="wave wave-2"></div>
+      <div class="wave wave-5"></div>
+      <div class="wave wave-4"></div>
+      <div class="wave wave-3"></div>
+      <div class="wave wave-4"></div>
+      <div class="wave wave-3"></div>
+      <div class="wave wave-5"></div>
+    </div>
+  </div>
+  <div class="radio-volume">
+    <div class="button button-sound"><i aria-hidden="true" class="fa fa-volume-up"></i></div>
+    <input class="range" id="radioVol" max="1" onchange="setVolume()" oninput="setVolume()" type="range" value="1" step="0.1">
+    <div class="butonlar">
+      <a href="https://rocktribe.blogspot.com/p/archive.html" title="Ninbot Arşivi"><i aria-hidden="true" class="fa fa-grav"></i><i aria-hidden="true" class="fa fa-bullseye"></i><span class="tane"></span></a>
+      <a href="https://rocktribe.spread.name/" title="Rock Tribe Yedekleri"><i aria-hidden="true" class="fa fa-hdd-o"></i></a>
+      <a href="https://rocktribe.blogspot.com/p/jams-takvim.html" title="Haftalık Radyo Takvimi"><i aria-hidden="true" class="fa fa-calendar"></i></a>
+      <a href="https://minnit.chat/Jams?embed&amp;&amp;language=tr&amp;nickname=" title="Chat, Radyo hoparlör simgesinden..."><i aria-hidden="true" class="fa fa-commenting"></i></a>
+      <a href="#" target="_parent" title="Radyo Yayınları için Duyurular"><i aria-hidden="true" class="fa fa-bullhorn"></i></a>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  body {
+     background: rgb(57 16 62 / 40%);
+user-select: none;
+color: #fff;
+font-family: 'Verdana', sans-serif;
+}
+ 
+  </style>
+
+<script>
+var player = document.getElementById('radioPlayer');
+var radioVolume = document.getElementById('radioVol');
+var userVolume = 1;
+
+$('.button-play').click(function() {
+  icon = $(this).find('i');
+ 
+  if (icon.hasClass('fa-pause')) {
+    icon.removeClass('fa-pause');
+    icon.addClass('fa-play');
+    if (player.src != "//stream.zeno.fm/pgwxggc0qnhvv"){
+ player.src = "//stream.zeno.fm/pgwxggc0qnhvv";
+    }
+player.pause();
+    waveAfterWave();
+  } else {
+    icon.removeClass('fa-play');
+    icon.addClass('fa-pause');
+    player.play();
+    $('.wave').removeClass('no-animation');
+  }
+});
+
+$('.button-stop').click(function() {
+  icon = $('.button-play').find('i');
+ 
+  if (icon.hasClass('fa-pause')) {
+    icon.removeClass('fa-pause');
+    icon.addClass('fa-play');
+    player.src = "//stream.zeno.fm/pgwxggc0qnhvv";
+  }
+  waveAfterWave();
+});
+
+$('.button-sound').click(function() {
+  icon = $(this).find('i');
+ 
+  if (icon.hasClass('fa-volume-off')) {
+    radioVolume.value = userVolume;
+  } else {
+    radioVolume.value = 0;
+  }
+  setVolume();
+});
+
+function setVolume() {
+  player.volume = radioVolume.value;
+  checkVolume();
+};
+
+function checkVolume() {
+  icon = $('.button-sound').find('i');
+ 
+  if (radioVolume.value == 0) {
+    icon.removeClass('fa-volume-up');
+    icon.removeClass('fa-volume-down');
+    icon.addClass('fa-volume-off');
+  } else if (radioVolume.value < 0.5) {
+    icon.removeClass('fa-volume-off');
+    icon.removeClass('fa-volume-up');
+    icon.addClass('fa-volume-down');
+    userVolume = radioVolume.value;
+  } else {
+    icon.removeClass('fa-volume-off');
+    icon.removeClass('fa-volume-down');
+    icon.addClass('fa-volume-up');
+    userVolume = radioVolume.value;
+  }
+};
+
+function waveAfterWave() {
+  $('.wave').each(function(){
+    height = $(this).height();
+    $(this).css('height', height);
+  });
+  $('.wave').addClass('no-animation');
+};
+ 
+  </script>
+        <style>
+     body {background: rgba(0, 0, 0, 0.7); color: #fff; font-family: Candara, sans-serif;}
+     h3.post-title.entry-title, .post-footer, .comments, .blog-feeds, #blog-pager, .cookie-choices-info {display:none;}
+     
+     .dropbtn {
+    background-color: #ffffff;
+    color: #656565;
+    padding: 4px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-shadow: 0 0 0 #000, 0 0px 1px #fff;
+    border-radius: 3px;
+}
+html {
+  scrollbar-face-color: #646464;
+  scrollbar-base-color: #646464;
+  scrollbar-3dlight-color: #646464;
+  scrollbar-highlight-color: #646464;
+  scrollbar-track-color: #000;
+  scrollbar-arrow-color: #000;
+  scrollbar-shadow-color: #646464;
+  scrollbar-dark-shadow-color: #646464;
+}
+
+::-webkit-scrollbar { width: 8px; height: 3px;}
+::-webkit-scrollbar-button {  background-color: #000; }
+::-webkit-scrollbar-button:hover {background: #000; box-shadow: 0 0px 7px #fff;}
+::-webkit-scrollbar-thumb:hover {background: #292929;}
+::-webkit-scrollbar-track {  background-color: #646464;}
+::-webkit-scrollbar-track-piece { background-color: #000;}
+::-webkit-scrollbar-thumb { height: 50px; background-color: #000; border-radius: 3px;}
+::-webkit-scrollbar-corner { background-color: #646464;}}
+::-webkit-resizer { background-color: #666;}
+     
+.dropcer {
+    text-align: center;
+}
+.dropdown {
+  position: relative;
+  display: inline-block;
+  padding: 1px;
+  width: -webkit-fill-available;
+}
+
+.dropdown-content {
+    font-size: 4vmin;
+    height: 88%;
+    position: relative;
+    overflow-x: hidden!important;
+    overflow: scroll;
+    opacity: 1;
+    z-index: 9999;
+    background-color: #000000b0;
+    width: 100%;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+}
+
+.dropdown-content a {
+  font-family: Candara, sans-serif;
+  color: #ddd;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+  border: solid 1px #111;
+}
+
+.dropdown-content a:hover {
+ background-color: #281b29;
+ color: #fff;
+ border: dashed 1px #222;
+ text-shadow: 0 0px 3px #fff;
+ }
+
+.dropdown:hover .dropbtn {
+  background-color: #200101;
+}
+
+.dropdown-content a:first-letter {
+    font-weight: 900;
+}
+sup {
+    right: 0;
+    float: right;
+    position: absolute;
+}
+input#myInput, input#myInput1  {
+    height: 25px;
+    width: 100%;
+    margin: 20px 0px 10px 0px;
+    border: none;
+    background: #333;
+    color: #fff;
+}
+input#myInput:focus, input#myInput1:focus {
+    outline: none;
+}
+.kesfet {
+    position: absolute;
+    right: 10px;
+    text-shadow: 0 0 3px #fff;
+    background: #000;
+    font-size: 20px;
+}
+.kesfeth {
+    display: table-row-group!important;
+    background: #333;
+    font-weight: bold;
+}
+
+.dropdown-content a.kesfeth:hover {
+    background: #333!important;
+}
+object.oguye {
+    display: flex;
+}
+#myDropdown1 img {
+    border-radius: 50%;
+    filter: drop-shadow(0px 6px 4px #111);
+    border-bottom: 5px solid transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+#myDropdown1 a img:hover {
+    filter: drop-shadow(0px 20px 10px #ff7a00);
+    transition: all 1s ease;
+    border-bottom: 5px solid #fff8f2;
+}
+.dropdown-content img {
+    border-radius: 5px;
+    border: 1px solid #222;
+}
+.guye {
+    box-shadow: 0 0 15px #ff7a00;
+    margin-top: 15px;
+}
+.guye:hover {
+    box-shadow: 0 0 40px #ff7a00;
+    transition: all 1s ease;
+}
+.dropdown-content .secki:first-letter {
+    font-weight: normal;
+}
+
+.secki {
+    font-variant: small-caps;
+}
+.sorui {
+    position: absolute;
+    top: 40px;
+    right: 17px;
+    z-index: 10000;
+}
+.sorui a {
+    text-shadow: 0 0 3px #fff;
+    filter: drop-shadow(0px 1px 2px #fff);
+    color: #000;
+    font-weight: bolder;
+    font-size: 21px;
+    border: none;
+    text-decoration: none;
+}
+.sorui a:hover {
+    background: none;
+    border: none;
+    color: #fff;
+}
+       
+       
+.radio-container {
+    width: 100%;
+    margin: auto;
+    opacity: 0.8;
+    margin-top: -10px;
+    left: 0;
+    position: fixed;
+}
+       
+.radio-container .radio-header {
+    background-color: transparent;
+    text-align: right;
+    padding: 10px 10px;
+    height: 15px;
+    background: rgb(0 0 0 / 83%);
+    opacity: 0.7;
+}
+ .radio-container .radio-header .radio-name {
+    font-size: calc(0.4em + 1vw);
+    font-weight: 900;
+    text-shadow: 0px 0px 1px #000;
+    color: transparent;
+    -webkit-text-stroke-width: 0.6px;
+    -webkit-text-stroke-color: #fff;
+    font-variant: small-caps;
+}
+ .radio-container .radio-header .current-presenter {
+font-size: 14px;
+font-weight: 400;
+color: #43ac6a;
+}
+ .radio-container .radio-body {
+    background: transparent;
+    background: -webkit-linear-gradient(left top, #71717142, #3131314a);
+    background: -o-linear-gradient(top left, #71717142, #3131314a);
+    background: -moz-linear-gradient(top left, #71717142, #3131314a);
+    background: linear-gradient(to bottom right, #71717142, #3131314a);
+    background-size: 100% 100%;
+    height: 175px;
+    position: relative;
+    overflow: hidden;
+}
+ .radio-container .radio-body .current-song {
+    color: #fff;
+    -webkit-text-stroke-width: 0.4px;
+    -webkit-text-stroke-color: #000;
+    font-size: 17px;
+    text-align: right;
+    text-shadow: -2px -1px 2px #000;
+    right: 45px;
+    padding: 117px 0;
+    position: absolute;
+    z-index: 2;
+    width: fit-content;
+    right: 2px;
+}
+ .radio-container .radio-body .radio-buttons {
+position: absolute;
+bottom: 0;
+left: 15px;
+height: 50px;
+width: 320px;
+z-index: 2;
+}
+ .radio-container .radio-body .radio-buttons .button {
+color: rgba(255, 255, 255, 0.6);
+float: left;
+}
+ .radio-container .radio-body .radio-buttons .button:hover {
+color: rgba(255, 255, 255, 0.8);
+}
+ .radio-container .radio-body .radio-buttons .button-play {
+    margin-top: -95px;
+    font-size: 5em;
+    margin-left: 2px;
+}
+ .radio-container .radio-body .radio-buttons .button-stop {
+margin-top: 10px;
+}
+ .radio-container .radio-body .shine {
+    position: absolute;
+    top: -51px;
+    left: -94px;
+    height: 181px;
+    width: 293px;
+    background: linear-gradient(360deg, rgba(255, 255, 255, .1), rgb(255 0 0 / 17%));
+    transform: rotate(-45deg);
+}
+.radio-container .radio-body .wave-bars {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    margin-top: -5px;
+}
+ .radio-container .radio-body .wave-bars .wave {
+margin-top: 173px;
+transform: translateY(-50%);
+height: 5px;
+width: 10%;
+background: rgba(255, 255, 255, .2);
+float: right;
+margin-right: 3px;
+animation-delay: 1s;
+}
+ .radio-container .radio-body .wave-bars .wave:first-child {
+margin-left: 2px;
+}
+ .radio-container .radio-body .wave-bars .wave:last-child {
+margin-right: 3;
+}
+ .radio-container .radio-body .wave-bars .wave.wave-1 {
+animation: wave1 1s linear alternate;
+}
+ .radio-container .radio-body .wave-bars .wave.wave-2 {
+animation: wave2 2s linear alternate;
+}
+ .radio-container .radio-body .wave-bars .wave.wave-3 {
+animation: wave3 1.5s linear alternate;
+}
+ .radio-container .radio-body .wave-bars .wave.wave-4 {
+animation: wave4 1s linear alternate;
+}
+ .radio-container .radio-body .wave-bars .wave.wave-5 {
+animation: wave5 1.5s linear alternate;
+}
+ .radio-container .radio-body .wave-bars .wave.no-animation {
+animation: stopwaves 1s linear;
+animation-iteration-count: 1;
+animation-fill-mode: forwards;
+}
+.radio-container .radio-volume {
+    background: transparent;
+    padding: 0px 10px;
+    height: 40px;
+    margin-top: -5px;
+}
+ .radio-container .radio-volume .button-sound {
+float: left;
+font-size: 2em;
+color: #ccc;
+width: 30px;
+}
+ .radio-container .radio-volume .button-sound:hover {
+color: #bbb;
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;] {
+    position: relative;
+    top: 8px;
+    width: 100px;
+    height: 9px;
+    margin: 6px 12px;
+    display: inline;
+    -webkit-appearance: none;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    opacity: 0.5;
+    filter: drop-shadow(0px 0px 1px #000);
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;]::-webkit-slider-thumb {
+-webkit-appearance: none;
+background-color: #fff;
+border: 1px solid #ccc;
+width: 20px;
+height: 20px;
+border-radius: 10px;
+cursor: pointer;
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;]::-moz-range-track {
+border-radius: 8px;
+width: 260px;
+height: 7px;
+border: 1px solid #ddd;
+background-color: #fff;
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;]::-moz-range-thumb {
+background: #fff;
+border: 1px solid #ccc;
+width: 18px;
+height: 18px;
+border-radius: 9px;
+cursor: pointer;
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;]::-ms-track {
+width: 100px;
+height: 7px;
+cursor: pointer;
+background: transparent;
+border-color: transparent;
+color: transparent;
+}
+ .radio-container .radio-volume input[type=&quot;range&quot;]:focus {
+outline: 0;
+}
+ .radio-container .button {
+cursor: pointer;
+}
+ @-webkit-keyframes wave1 {
+0% {
+height: 10%;
+}
+33% {
+height: 30%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @-moz-keyframes wave1 {
+0% {
+height: 10%;
+}
+33% {
+height: 30%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes wave1 {
+0% {
+height: 10%;
+}
+33% {
+height: 30%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @-webkit-keyframes wave2 {
+0% {
+height: 40%;
+}
+33% {
+height: 20%;
+}
+66% {
+height: 40%;
+}
+100% {
+height: 5px;
+}
+}
+ @-moz-keyframes wave2 {
+0% {
+height: 40%;
+}
+33% {
+height: 20%;
+}
+66% {
+height: 40%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes wave2 {
+0% {
+height: 40%;
+}
+33% {
+height: 20%;
+}
+66% {
+height: 40%;
+}
+100% {
+height: 5px;
+}
+}
+ @-webkit-keyframes wave3 {
+0% {
+height: 30%;
+}
+33% {
+height: 45%;
+}
+66% {
+height: 30%;
+}
+100% {
+height: 5px;
+}
+}
+ @-moz-keyframes wave3 {
+0% {
+height: 30%;
+}
+33% {
+height: 45%;
+}
+66% {
+height: 30%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes wave3 {
+0% {
+height: 45%;
+}
+33% {
+height: 20%;
+}
+66% {
+height: 30%;
+}
+100% {
+height: 5px;
+}
+}
+ @-webkit-keyframes wave4 {
+0% {
+height: 30%;
+}
+33% {
+height: 25%;
+}
+66% {
+height: 45%;
+}
+100% {
+height: 5px;
+}
+}
+ @-moz-keyframes wave4 {
+0% {
+height: 30%;
+}
+33% {
+height: 25%;
+}
+66% {
+height: 45%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes wave4 {
+0% {
+height: 30%;
+}
+33% {
+height: 25%;
+}
+66% {
+height: 45%;
+}
+100% {
+height: 5px;
+}
+}
+ @-webkit-keyframes wave5 {
+0% {
+height: 20%;
+}
+33% {
+height: 35%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @-moz-keyframes wave5 {
+0% {
+height: 20%;
+}
+33% {
+height: 35%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes wave5 {
+0% {
+height: 20%;
+}
+33% {
+height: 35%;
+}
+66% {
+height: 15%;
+}
+100% {
+height: 5px;
+}
+}
+ @keyframes stopwaves {
+100% {
+height: 5px;
+}
+}
+       
+@-webkit-keyframes mani {
+  0%   { letter-spacing: -5.5px; }
+  100% { letter-spacing:0.5px; }
+}
+@keyframes mani {
+  0%   { letter-spacing: -5.5px; }
+  100% { letter-spacing:0.5px; }
+}        
+
+.fa-calendar, .fa-commenting, .fa-bullhorn, .fa-file-audio-o, .fa-envelope-open-o, .fa-grav, .fa-bullseye, .fa-hdd-o {
+    color: #ccc;
+    font-size: calc(1em + 1vw)!important;
+    float: right;
+    padding-left: 10px;
+}
+.fa-grav {margin-top: 2px; margin-left: calc(-1.4em + 1vw); font-size: calc(0.4em + 1vw)!important; color:#ff7a00;}
+.logo {
+    position: absolute;
+    top: 36px;
+    right: 3px;
+    opacity: 0.7;
+}
+#radyo, #radyo2 {
+font-size: calc(0.6em + 0.2vw);
+transform: scale(1, 1.5);
+border-radius: 5px;
+background: #00000029;
+margin-top: 2px;
+margin-right: 3px;
+  }
+.butonlar {
+    display: inline-block;
+    position: absolute;
+    top: 237px;
+    right: 10px;
+    text-shadow: 0 0 6px #000;
+}
+ 
+ 
+input[type=&#39;button&#39;]{
+    background: #20010152;
+    border: none;
+    color: #fff;
+    height: 50px;
+    position: absolute;
+    left: -37px;
+    top: -6px;
+    cursor: pointer;
+    font-variant-caps: petite-caps;
+    border-radius: 5px;
+}
+input[type=&quot;button&quot;]:focus {
+    outline: 0;
+}
+.duyuru {
+    top: 10px;
+    position: absolute;
+    text-align: right;
+    margin-bottom: -80px;
+    left: 14px;
+    width: auto;
+    height: 26px;
+    font-size: 14px;
+    display: inline-block;
+    text-shadow: 0 0 10px #ff7a00, 0 0px 5px #000, 0px 10px 6px #000;
+    filter: drop-shadow(10px 10px 6px #000);
+    opacity: 0.7;
+    padding-right: 5px;
+    -webkit-animation: mani 2s;
+    animation: mani 3s;
+    animation-timing-function: cubic-bezier(1, -0.03, 1, 1);
+    z-index: 1;
+}
+embed {
+    position: absolute;
+    display: inline-block;
+-webkit-filter: drop-shadow(0px 0px 1px #000) invert() hue-rotate(180deg);
+  margin-top: -10px;
+}          
+.tane, .tane2, .tane3 {
+    font-size: .7em;
+    display: block;
+    position: absolute;
+    top: -1.5em;
+    right: -5px;
+    padding: 1px 2px 1px 2px;
+    height: 1.5em;
+    line-height: 1.5em;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    background: #000000;
+    -webkit-animation: mani 1s;
+    animation: mani 1s;
+    animation-timing-function: cubic-bezier(1, -0.03, 1, 1);
+    transform: scale(1,1.3);
+}
+.tane:before {
+    content: &quot;🎼 351&quot;;
+}  
+.tane2:before {
+    content: &quot;1&quot;;
+}
+.tane3:before {
+    content: &quot;3&quot;;
+}  
+
+.fa-play {
+    text-shadow: 0 0px 45px #000;  
+  }
+.modalheader {
+    margin-top: 20px;
+}        
+     </style>
+</body>
+</html>
